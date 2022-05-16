@@ -46,55 +46,53 @@ public class ListaCategoriaPasajero {
         return false;
     }
 
-    public String getIdsCategoria(CategoriaPasajero categoria){
+    public String getInfoDeCategoria(CategoriaPasajero categoria){
         NodoCategoriaPasajero aux = this.primero;
         if(aux.getCategoria() == categoria){
-            return aux.getIds();
+            return aux.getDatosPasajeros();
         }
         while(aux.getSiguiente() != null){
             aux = aux.getSiguiente();
             if(aux.getCategoria() == categoria) {
-                return aux.getIds();
+                return aux.getDatosPasajeros();
             }
         }
         return "No se encuentran pasajeros registrados bajo esa categoría.";
     }
 
-    public boolean agregarSiCategoriaExiste(CategoriaPasajero categoria, String id){
+
+
+    public void agregarDatosAcategoria(NodoCategoriaPasajero nodo, NodoPasajero pasajero){
+        String datosActuales = nodo.getDatosPasajeros();
+        String datosActualizados = datosActuales + "|" + pasajero.getInfoPasajero();
+        nodo.setDatosPasajeros(datosActualizados);
+    }
+
+    public void agregar(CategoriaPasajero categoria, NodoPasajero pasajero){
+        NodoCategoriaPasajero aux = encontrarCategoria(categoria);
+        if(aux == null){
+            agregarinicio(categoria, pasajero.getInfoPasajero());
+        }else{
+            agregarDatosAcategoria(aux, pasajero);
+        }
+    }
+
+    public NodoCategoriaPasajero encontrarCategoria(CategoriaPasajero categoria){
         if(!this.esVacia()){
             NodoCategoriaPasajero aux = this.getPrimero();
-            boolean yaExiste = aux.getCategoria() == categoria;
-            while(aux.getSiguiente() != null && yaExiste == false){
-                if(aux.getCategoria() == categoria){
-                    yaExiste = true;
-
+            while(aux.getSiguiente() != null){
+                if(aux.getCategoria().equals(categoria)){
+                    return aux;
                 }
                 aux = aux.getSiguiente();
-
             }
-            if(yaExiste){
-                agregarIdACategoria(aux, id);
-            }
-            return yaExiste;
         }
-        return false;
-
+        return null;
     }
 
-    public void agregarIdACategoria(NodoCategoriaPasajero nodo, String id){
-        String idsActuales = nodo.getIds();
-        String idsActualizado = idsActuales + "|" + id;
-        nodo.setIds(idsActualizado);
-    }
 
-    public void agregar(CategoriaPasajero categoria, String id){
-        if(!agregarSiCategoriaExiste(categoria, id)){
-            agregarinicio(categoria, id);
-        }
-    }
-
-    public void agregarinicio(CategoriaPasajero categoria, String ids) {
-        NodoCategoriaPasajero nuevoNodo = new NodoCategoriaPasajero(categoria, ids);
+    public void agregarinicio(CategoriaPasajero categoria, String datosPasajero) {
+        NodoCategoriaPasajero nuevoNodo = new NodoCategoriaPasajero(categoria, datosPasajero);
         if (!this.esVacia()) {
             nuevoNodo.setSiguiente(this.primero);
         } else {

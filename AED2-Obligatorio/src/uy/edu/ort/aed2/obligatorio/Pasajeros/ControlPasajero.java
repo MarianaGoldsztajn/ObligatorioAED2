@@ -13,25 +13,26 @@ public class ControlPasajero {
     }
 
     public String encontrarPasajero(String id){
-        return this.arbol.findPassenger(id);
+        return this.arbol.encontrarPasajero(id);
     }
 
     public String listarAscendente(){
-        return this.arbol.listAscending();
+        return this.arbol.listarAscendente();
     }
     public String listarDescendente(){
-        return this.arbol.listDescending();
+        return this.arbol.listarDescendente();
     }
-    public Retorno agregarPasajero(String id, String name, String phone, CategoriaPasajero category){
-        Retorno ret = this.arbol.addPassenger(id,name,phone,category);
+    public Retorno agregarPasajero(String id, String nombre, String telefono, CategoriaPasajero categoria){
+        NodoPasajero pasajero = new NodoPasajero(id, nombre, telefono, categoria);
+        Retorno ret = this.arbol.agregarPasajero(pasajero);
         if(ret.resultado == Retorno.Resultado.OK){
-            this.listaCat.agregar(category, id);
+            this.listaCat.agregar(categoria, pasajero);
         }
         return ret;
     }
 
     public String getIdsPorCategoria(CategoriaPasajero categoria){
-        return this.listaCat.getIdsCategoria(categoria);
+        return this.listaCat.getInfoDeCategoria(categoria);
     }
 
 }

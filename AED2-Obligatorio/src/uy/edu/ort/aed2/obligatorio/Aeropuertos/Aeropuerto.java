@@ -1,42 +1,35 @@
 package uy.edu.ort.aed2.obligatorio.Aeropuertos;
 
+import uy.edu.ort.aed2.obligatorio.Retorno;
+
 public class Aeropuerto {
-    //Arbol?
-    private String Code;
-    private String Name;
-    private Aeropuerto right;
-    private Aeropuerto left;
+    private String Codigo;
+    private String Nombre;
 
-    public Aeropuerto(String code, String name){
-        this.Code = code;
-        this.Name = name;
+    public String getCodigo() {
+        return Codigo;
     }
 
-    public String getCode(){
-        return this.Code;
+    public void setCodigo(String codigo) {
+        Codigo = codigo;
     }
 
-    public String getName(){
-        return this.Name;
+    public String getNombre() {
+        return Nombre;
     }
 
-    public void setLeft(Aeropuerto left) {
-        this.left = left;
+    public void setNombre(String nombre) {
+        Nombre = nombre;
     }
 
-    public void setRight(Aeropuerto right) {
-        this.right = right;
+    public Aeropuerto(String codigo, String nombre) {
+        codigo = codigo;
+        Nombre = nombre;
     }
 
-    public Aeropuerto getLeft() {
-        return left;
-    }
-
-    public Aeropuerto getRight() {
-        return right;
-    }
-
-    public boolean isLeaf() {
-        return left == null && right == null;
+    public static boolean datosValidos(Aeropuerto aeropuerto){
+        String codigo = aeropuerto.getCodigo();
+        String nombre = aeropuerto.getNombre();
+        return !(codigo.isEmpty() || codigo.isBlank()|| nombre.isBlank() || nombre.isEmpty());
     }
 }

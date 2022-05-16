@@ -4,12 +4,12 @@ import uy.edu.ort.aed2.obligatorio.Pasajeros.Enum.CategoriaPasajero;
 
 public class NodoCategoriaPasajero {
     private CategoriaPasajero categoria;
-    private String ids;
+    private String datosPasajeros;
     private NodoCategoriaPasajero siguiente;
 
     public NodoCategoriaPasajero(CategoriaPasajero categoria, String id) {
         this.categoria = categoria;
-        this.ids = id;
+        this.datosPasajeros = id;
         this.siguiente = null;
     }
 
@@ -21,19 +21,19 @@ public class NodoCategoriaPasajero {
         this.categoria = categoria;
     }
 
-    public String getIds() {
-        return ids;
+    public String getDatosPasajeros() {
+        return datosPasajeros;
     }
 
-    public void setIds(String ids) {
-        this.ids = ids;
+    public void setDatosPasajeros(String datosPasajeros) {
+        this.datosPasajeros = datosPasajeros;
+    }
+
+    public NodoCategoriaPasajero getSiguiente() {
+        return siguiente;
     }
 
     public void setSiguiente(NodoCategoriaPasajero siguiente) {
         this.siguiente = siguiente;
     }
-    public NodoCategoriaPasajero getSiguiente() {
-       return this.siguiente;
-    }
-
 }

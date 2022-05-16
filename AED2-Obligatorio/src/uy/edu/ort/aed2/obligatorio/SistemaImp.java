@@ -1,6 +1,8 @@
 package uy.edu.ort.aed2.obligatorio;
 
 public class SistemaImp implements Sistema {
+    private int maxAeropuertos;
+    private int contadorAeropuertos;
 
     @Override
     public Retorno inicializarSistema(int maxAeropuertos) {
@@ -34,6 +36,7 @@ public class SistemaImp implements Sistema {
 
     @Override
     public Retorno registrarAeropuerto(String codigo, String nombre) {
+
         return new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
     }
 

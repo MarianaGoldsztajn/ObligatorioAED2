@@ -5,59 +5,41 @@ import uy.edu.ort.aed2.obligatorio.Retorno;
 import uy.edu.ort.aed2.obligatorio.Utils;
 
 public class PasajeroABB {
-    private NodoPasajero root;
-
+    private NodoPasajero raiz;
+    private ControlPasajero pc;
 
     public PasajeroABB(){
-    }
-
-    public boolean SavePassenger(){
-        return true;
-    }
-
-    public static Retorno validPassengerId(String id) {
-        int length = id.length();
-        if(id.length() == 9 || id.length() == 11){
-            if (id.charAt(length - 2) == '-' && (id.length() == 11 && id.charAt(1) == '.' && id.charAt(5) == '.') || (id.length() == 9 && id.charAt(3) == '.')) {
-                id = Utils.getIdWithoutSimbols(id);
-                if (Utils.isNumeric(id)) {
-                    return new Retorno(Retorno.Resultado.OK);
-                }
-            }
-        }
-        return new Retorno(Retorno.Resultado.ERROR_2);
+        pc = new ControlPasajero();
     }
 
 
-    public Retorno checkExistingPassenger(String id) {
-        if(existingPassengerRec(this.root, id)){
+    public Retorno pasajeroExistente(String id) {
+        if(pasajeroExistenteRecursivo(this.raiz, id)){
             return new Retorno(Retorno.Resultado.ERROR_3);
         }else{
             return new Retorno(Retorno.Resultado.OK);
         }
     }
 
-    public static boolean existingPassengerRec(NodoPasajero passenger, String id){
+    public static boolean pasajeroExistenteRecursivo(NodoPasajero passenger, String id){
         if(passenger == null) {
             return false;
-        }else if(passenger.getStringId() == id) {
+        }else if(passenger.getId() == id) {
             return true;
         }else {
-            return existingPassengerRec(passenger.getLeft(), id) || existingPassengerRec(passenger.getRight(), id);
+            return pasajeroExistenteRecursivo(passenger.getIzquierda(), id) || pasajeroExistenteRecursivo(passenger.getDerecha(), id);
         }
     }
 
-    public Retorno addPassenger(String id, String name, String phone, CategoriaPasajero category){
-        if(id == null || name == null || phone == null || category == null){
+    public Retorno agregarPasajero(NodoPasajero pasajero){
+        if(!NodoPasajero.datosValidos(pasajero)){
             return new Retorno(Retorno.Resultado.ERROR_1);
         }else{
-            NodoPasajero passenger = new NodoPasajero(id, name, phone, category);
-            Retorno retValidPassengerId = validPassengerId(passenger.getStringId());
-            Retorno retExistingPassenger = checkExistingPassenger(passenger.getStringId());
+            Retorno retValidPassengerId = NodoPasajero.validarId(pasajero.getId());
+            Retorno retExistingPassenger = pasajeroExistente(pasajero.getId());
             if(retValidPassengerId.resultado.equals(Retorno.Resultado.OK)){
                 if(retExistingPassenger.resultado.equals(Retorno.Resultado.OK)){
-                    save(passenger);
-                    //this.pc.addToHashtable(category, id);
+                    guardar(pasajero);
                     return new Retorno(Retorno.Resultado.OK);
                 }else{
                     return retExistingPassenger;
@@ -68,83 +50,83 @@ public class PasajeroABB {
         }
     }
 
-    public void save(NodoPasajero newPassenger) {
-        if (root == null) {
-            root = newPassenger;
+    public void guardar(NodoPasajero newPassenger) {
+        if (raiz == null) {
+            raiz = newPassenger;
         } else {
-            saveRecursive(root, newPassenger);
+            guardarRecursivo(raiz, newPassenger);
         }
     }
-    private void saveRecursive(NodoPasajero passenger, NodoPasajero newPassenger) {
-        if (passenger.getNumericId() > newPassenger.getNumericId()) {
-            if (passenger.getRight() == null) {
-                passenger.setRight(newPassenger);
+    private void guardarRecursivo(NodoPasajero passenger, NodoPasajero newPassenger) {
+        if (passenger.getIdNumerico() > newPassenger.getIdNumerico()) {
+            if (passenger.getDerecha() == null) {
+                passenger.setDerecha(newPassenger);
             } else {
-                saveRecursive(passenger.getRight(), newPassenger);
+                guardarRecursivo(passenger.getDerecha(), newPassenger);
             }
         } else {
-            if (passenger.getLeft() == null) {
-                passenger.setLeft(newPassenger);
+            if (passenger.getIzquierda() == null) {
+                passenger.setIzquierda(newPassenger);
             } else {
-                saveRecursive(passenger.getLeft(), newPassenger);
+                guardarRecursivo(passenger.getIzquierda(), newPassenger);
             }
         }
     }
 
-    public String findPassenger(String id) {
-        NodoPasajero passenger = findPassengerRec(this.root, id);
+    public String encontrarPasajero(String id) {
+        NodoPasajero passenger = encontrarPasajeroRecursivo(this.raiz, id);
         if( passenger != null){
-            return passenger.getPassengerInfoLine();
+            return passenger.getInfoPasajero();
         }else{
             return "The passenger was not found in the system.";
         }
     }
-    public String listAscending(){
-        if(this.root == null){
+    public String listarAscendente(){
+        if(this.raiz == null){
             return "There are no passengers in the system.";
-        }else if(this.root.isLeaf()){
-            return this.root.getPassengerInfoLine();
+        }else if(this.raiz.isLeaf()){
+            return this.raiz.getInfoPasajero();
         }else {
-            String text = listAscendingRec(this.root, "");
+            String text = listarAscendenteRecursivo(this.raiz, "");
             return text;
         }
     }
 
-    public String listAscendingRec(NodoPasajero passenger, String text) {
+    public String listarAscendenteRecursivo(NodoPasajero passenger, String text) {
         if(passenger != null) {
-            text = listAscendingRec(passenger.getRight(), text);
-            text += passenger.getPassengerInfoLine() + "|";
-            text = listAscendingRec(passenger.getLeft(), text);
+            text = listarAscendenteRecursivo(passenger.getDerecha(), text);
+            text += passenger.getInfoPasajero() + "|";
+            text = listarAscendenteRecursivo(passenger.getIzquierda(), text);
         }
         return text;
     }
-    public String listDescending(){
-        if(this.root == null){
+    public String listarDescendente(){
+        if(this.raiz == null){
             return "There are no passengers in the system.";
-        }else if(this.root.isLeaf()){
-            return this.root.getPassengerInfoLine();
+        }else if(this.raiz.isLeaf()){
+            return this.raiz.getInfoPasajero();
         }else {
-            return listDescendingRec(this.root, "");
+            return listarDescendenteRecursivo(this.raiz, "");
         }
     }
 
-    private String listDescendingRec(NodoPasajero passenger, String text) {
+    private String listarDescendenteRecursivo(NodoPasajero passenger, String text) {
         if(passenger != null) {
-            text = listDescendingRec(passenger.getLeft(), text);
-            text += passenger.getPassengerInfoLine() + "|";
-            text = listDescendingRec(passenger.getRight(), text);
+            text = listarDescendenteRecursivo(passenger.getIzquierda(), text);
+            text += passenger.getInfoPasajero() + "|";
+            text = listarDescendenteRecursivo(passenger.getDerecha(), text);
         }
         return text;
     }
 
-    public static NodoPasajero findPassengerRec(NodoPasajero passenger, String id){
+    public static NodoPasajero encontrarPasajeroRecursivo(NodoPasajero passenger, String id){
         if(passenger == null) {
             return null;
-        }else if(passenger.getStringId() == id) {
+        }else if(passenger.getNombre() == id) {
             return passenger;
         }else {
-            NodoPasajero passenger1 = findPassengerRec(passenger.getLeft(), id);
-            NodoPasajero passenger2 = findPassengerRec(passenger.getRight(), id);
+            NodoPasajero passenger1 = encontrarPasajeroRecursivo(passenger.getIzquierda(), id);
+            NodoPasajero passenger2 = encontrarPasajeroRecursivo(passenger.getDerecha(), id);
             if(passenger1 != null){
                 return passenger1;
             }else if(passenger2 != null){
