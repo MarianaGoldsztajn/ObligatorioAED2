@@ -122,8 +122,8 @@ public class GrafoAeropuerto {
         int posDestino = obtenerPos(destino);
         aristasConexiones[posOrigen][posDestino] = null;
     }
-
-    public Retorno listadoAeropuertosCantDeEscalas(String codigoAeropuertoDeOrigen, int cantidad){
+    //bfs
+/*    public Retorno listadoAeropuertosCantDeEscalas(String codigoAeropuertoDeOrigen, int cantidad){
         ColaImp cola = new ColaImp();
         ArrayList<String> visitados = new ArrayList<>();
         visitados.add(vert);
@@ -139,7 +139,7 @@ public class GrafoAeropuerto {
                 }
             }
         }
-    }
+    }*/
 
 
 

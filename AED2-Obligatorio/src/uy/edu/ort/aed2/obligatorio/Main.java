@@ -1,11 +1,8 @@
 package uy.edu.ort.aed2.obligatorio;
 
 import uy.edu.ort.aed2.obligatorio.Pasajeros.Enum.CategoriaPasajero;
-import uy.edu.ort.aed2.obligatorio.Pasajeros.NodoPasajero;
-import uy.edu.ort.aed2.obligatorio.Pasajeros.PasajeroABB;
+import uy.edu.ort.aed2.obligatorio.Pasajeros.ArbolPasajero.PasajeroABB;
 import uy.edu.ort.aed2.obligatorio.Pasajeros.ControlPasajero;
-
-import java.util.Hashtable;
 
 public class Main {
 
@@ -14,7 +11,7 @@ public class Main {
         ControlPasajero controlPasajero = new ControlPasajero();
 
 
-        NodoPasajero p = new NodoPasajero("111.111-2", "Mariana", "098775632", CategoriaPasajero.Platino);
+        //NodoPasajero p = new NodoPasajero("111.111-2", "Mariana", "098775632", CategoriaPasajero.Platino);
         PasajeroABB pABB = new PasajeroABB();
         Retorno ret = controlPasajero.agregarPasajero("111.111-1", "Mariana", "098775632", CategoriaPasajero.Platino);
 
@@ -39,6 +36,8 @@ public class Main {
         System.out.println("Frecuente:");
         System.out.println(controlPasajero.getIdsPorCategoria(CategoriaPasajero.Frecuente));
         System.out.println("Estandar:");
+        //ControlCategoriasPasajeros cp = new ControlCategoriasPasajeros();
+
         System.out.println(controlPasajero.getIdsPorCategoria(CategoriaPasajero.Estandar));
 
     }

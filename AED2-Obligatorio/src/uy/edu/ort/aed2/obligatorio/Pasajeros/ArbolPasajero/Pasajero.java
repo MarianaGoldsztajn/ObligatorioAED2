@@ -1,34 +1,25 @@
-package uy.edu.ort.aed2.obligatorio.Pasajeros;
+package uy.edu.ort.aed2.obligatorio.Pasajeros.ArbolPasajero;
 
 import uy.edu.ort.aed2.obligatorio.Pasajeros.Enum.CategoriaPasajero;
 import uy.edu.ort.aed2.obligatorio.Retorno;
 import uy.edu.ort.aed2.obligatorio.Utils;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
-public class NodoPasajero {
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Pasajero {
     private String Id;
     private int IdNumerico;
     private String Nombre;
     private String Telefono;
     private CategoriaPasajero Categoria;
-    private NodoPasajero Derecha;
-    private NodoPasajero Izquierda;
 
-    public NodoPasajero(String id, String name, String phone, CategoriaPasajero category) {
-        this.Id = id;
-        this.IdNumerico = getIdNumerico(id);
-        this.Nombre = name;
-        this.Telefono = phone;
-        this.Categoria = category;
-    }
-
-    public int getIdNumerico(String id){
-        id = Utils.getIdWithoutSimbols(id);
-        if(Utils.isNumeric(id)){
-            return Integer.parseInt(id);
-        }
-        return 0;
+    public Pasajero(String id, String nombre, String telefono, CategoriaPasajero categoria) {
+        Id = id;
+        IdNumerico = getIdNumerico(id);
+        Nombre = nombre;
+        Telefono = telefono;
+        Categoria = categoria;
     }
 
     public String getId() {
@@ -37,6 +28,14 @@ public class NodoPasajero {
 
     public void setId(String id) {
         Id = id;
+    }
+
+    public int getIdNumerico(String id){
+        id = Utils.getIdWithoutSimbols(id);
+        if(Utils.isNumeric(id)){
+            return Integer.parseInt(id);
+        }
+        return 0;
     }
 
     public int getIdNumerico() {
@@ -71,26 +70,6 @@ public class NodoPasajero {
         Categoria = categoria;
     }
 
-    public NodoPasajero getDerecha() {
-        return Derecha;
-    }
-
-    public void setDerecha(NodoPasajero derecha) {
-        Derecha = derecha;
-    }
-
-    public NodoPasajero getIzquierda() {
-        return Izquierda;
-    }
-
-    public void setIzquierda(NodoPasajero izquierda) {
-        Izquierda = izquierda;
-    }
-
-    public boolean isLeaf() {
-        return this.getIzquierda() == null && this.getDerecha() == null;
-    }
-
     public String getInfoPasajero(){
         return "Id: " + this.getId() + ", Nombre: " + this.getNombre() + ", Teléfono: " + this.getTelefono() + ", Categoría: " + this.getCategoria().name();
     }
@@ -108,8 +87,7 @@ public class NodoPasajero {
         }
     }
 
-    public static boolean datosValidos(NodoPasajero pasajero){
+    public static boolean datosValidos(Pasajero pasajero){
         return !(pasajero.getId() == null || pasajero.getNombre() == null || pasajero.getTelefono() == null || pasajero.getCategoria() == null);
     }
-
 }
